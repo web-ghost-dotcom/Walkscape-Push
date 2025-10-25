@@ -8,7 +8,7 @@ interface ConnectButtonProps {
     className?: string;
 }
 
-export default function ConnectButton({ children, className }: ConnectButtonProps) {
+export default function ConnectButton({ children }: ConnectButtonProps) {
     // Extract text from children
     let buttonText = 'Launch App';
 

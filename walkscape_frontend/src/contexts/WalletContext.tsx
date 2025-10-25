@@ -58,8 +58,8 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
                     console.log('Initializing provider for Push Chain wallet');
 
                     // Try to use window.ethereum and ensure it's on Push Chain network
-                    if (typeof window !== 'undefined' && (window as any).ethereum) {
-                        const ethersProvider = new BrowserProvider((window as any).ethereum);
+                    if (typeof window !== 'undefined' && (window as unknown as { ethereum?: unknown }).ethereum) {
+                        const ethersProvider = new BrowserProvider((window as unknown as { ethereum: unknown }).ethereum as never);
 
                         // Check if we're on the correct network
                         try {
@@ -70,15 +70,15 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
                             if (network.chainId !== BigInt(42101)) {
                                 console.log('Not on Push Chain, attempting to switch network...');
                                 try {
-                                    await (window as any).ethereum.request({
+                                    await ((window as unknown as { ethereum: { request: (args: { method: string; params: unknown[] }) => Promise<void> } }).ethereum.request({
                                         method: 'wallet_switchEthereumChain',
                                         params: [{ chainId: '0xa465' }], // 42101 in hex
-                                    });
+                                    }));
                                     console.log('Successfully switched to Push Chain');
-                                } catch (switchError: any) {
+                                } catch (switchError: unknown) {
                                     // Chain not added yet, add it
-                                    if (switchError.code === 4902) {
-                                        await (window as any).ethereum.request({
+                                    if ((switchError as { code?: number }).code === 4902) {
+                                        await ((window as unknown as { ethereum: { request: (args: { method: string; params: unknown[] }) => Promise<void> } }).ethereum.request({
                                             method: 'wallet_addEthereumChain',
                                             params: [{
                                                 chainId: '0xa465',
@@ -91,7 +91,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
                                                 rpcUrls: ['https://evm.rpc-testnet-donut-node1.push.org/'],
                                                 blockExplorerUrls: ['https://donut.push.network']
                                             }]
-                                        });
+                                        }));
                                     }
                                 }
                             }
@@ -178,11 +178,11 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
                 setIsRegistered(false);
                 setPlayerStats(null);
             }
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.error('Error checking player registration:', error);
 
             // Check for specific contract/RPC errors
-            const errorMessage = error?.message || '';
+            const errorMessage = (error as Error)?.message || '';
             const isContractError = errorMessage.includes('could not decode result data') ||
                 errorMessage.includes('BAD_DATA') ||
                 errorMessage.includes('call revert exception');

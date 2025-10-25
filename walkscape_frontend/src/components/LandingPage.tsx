@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useWallet } from '@/contexts/WalletContext';
 import ConnectButton from './ConnectButton';
 import {
     Play,
@@ -23,7 +22,6 @@ import {
 } from 'lucide-react';
 
 export default function LandingPage() {
-    const { isLoading } = useWallet();
     const [activeFeature, setActiveFeature] = useState(0);
 
     const features = [

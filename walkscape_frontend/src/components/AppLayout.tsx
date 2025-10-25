@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
-    const { isConnected, isRegistered, registrationState, address, isLoading } = useWallet();
+    const { isConnected, registrationState, isLoading } = useWallet();
     const pathname = usePathname();
     const router = useRouter();
 

@@ -157,7 +157,7 @@ Be specific and confident in your analysis.`;
 /**
  * Alternative analysis using mock data (as fallback)
  */
-async function analyzeEnvironmentMock(imageData: string): Promise<DetectionResult> {
+async function analyzeEnvironmentMock(_imageData: string): Promise<DetectionResult> {
     console.log('🎭 Using mock AI analysis...');
 
     // Simulate API delay

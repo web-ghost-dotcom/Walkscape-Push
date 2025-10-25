@@ -97,12 +97,12 @@ export default function ArtifactScanner() {
         };
 
         // Enhanced error handler
-        const onError = (error: GeolocationPositionError | any) => {
+        const onError = (error: GeolocationPositionError | Error | unknown) => {
             // Handle both GeolocationPositionError and generic errors
-            const errorCode = error?.code;
-            const errorMessage = error?.message || 'Unknown error';
+            const errorCode = (error as GeolocationPositionError)?.code;
+            const errorMessage = (error as Error)?.message || 'Unknown error';
 
-            console.error('Geolocation error:', {
+            console.warn('Geolocation error:', {
                 error: error,
                 code: errorCode,
                 message: errorMessage,
@@ -139,7 +139,7 @@ export default function ArtifactScanner() {
         try {
             navigator.geolocation.getCurrentPosition(onSuccess, onError, highAccuracyOptions);
         } catch (syncError) {
-            console.error('Synchronous geolocation error:', syncError);
+            console.warn('Synchronous geolocation error:', syncError);
             setLocationError('Failed to initialize location services. Please check your browser permissions.');
             setIsLoadingLocation(false);
         }

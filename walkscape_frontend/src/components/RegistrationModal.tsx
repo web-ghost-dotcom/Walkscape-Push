@@ -23,7 +23,7 @@ interface RegistrationModalProps {
 }
 
 export default function RegistrationModal({ isOpen, onClose }: RegistrationModalProps) {
-    const { provider, address, checkRegistration, isRegistered, registrationState } = useWallet();
+    const { provider, address, checkRegistration, registrationState } = useWallet();
     const [isRegistering, setIsRegistering] = useState(false);
     const [registrationResult, setRegistrationResult] = useState<{ success: boolean; message: string } | null>(null);
 

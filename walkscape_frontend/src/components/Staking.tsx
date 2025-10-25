@@ -10,9 +10,7 @@ import {
     Clock,
     Gift,
     Loader2,
-    Star,
-    PawPrint,
-    AlertCircle
+    Star
 } from 'lucide-react';
 
 interface StakeInfo {
@@ -51,7 +49,7 @@ export default function Staking() {
         } finally {
             setIsLoading(false);
         }
-    }, [address]);
+    }, [address, provider]);
 
     useEffect(() => {
         loadStakeInfo();

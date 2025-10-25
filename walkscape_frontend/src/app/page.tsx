@@ -7,7 +7,7 @@ import LandingPage from '@/components/LandingPage';
 import RegistrationModal from '@/components/RegistrationModal';
 
 export default function Home() {
-  const { isConnected, isLoading, isRegistered, registrationState } = useWallet();
+  const { isConnected, isLoading, registrationState } = useWallet();
   const router = useRouter();
   const [hasCheckedRedirect, setHasCheckedRedirect] = useState(false);
 

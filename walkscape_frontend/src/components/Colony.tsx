@@ -88,7 +88,7 @@ export default function Colony() {
         } finally {
             setIsLoading(false);
         }
-    }, [address, playerStats]);
+    }, [address, playerStats, provider]);
 
     const loadCreatedColonies = useCallback(async () => {
         if (!address) return;
@@ -123,7 +123,7 @@ export default function Colony() {
         } finally {
             setIsLoadingCreated(false);
         }
-    }, [address]);
+    }, [address, provider]);
 
     const loadPopularColonies = useCallback(async () => {
         if (!address) return;
@@ -161,7 +161,7 @@ export default function Colony() {
         } finally {
             setIsLoadingPopular(false);
         }
-    }, [address]);
+    }, [address, provider]);
 
     useEffect(() => {
         if (isRegistered && address) {

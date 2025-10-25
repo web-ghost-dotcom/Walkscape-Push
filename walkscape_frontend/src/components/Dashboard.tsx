@@ -24,7 +24,6 @@ import {
 
 export default function Dashboard() {
     const { playerStats, refreshPlayerStats, address, isRegistered, isLoading } = useWallet();
-    const [lastRefresh, setLastRefresh] = useState(Date.now());
 
     // Debug log
     console.log('Dashboard state:', {
@@ -47,7 +46,6 @@ export default function Dashboard() {
         if (isRegistered) {
             const interval = setInterval(() => {
                 refreshPlayerStats();
-                setLastRefresh(Date.now());
             }, 30000);
 
             return () => clearInterval(interval);
@@ -129,10 +127,11 @@ export default function Dashboard() {
         return Math.floor(Math.sqrt(Number(xp) / 100)) + 1;
     };
 
-    const calculateNextLevelXP = (xp: bigint) => {
-        const currentLevel = calculateLevel(xp);
-        return Math.pow(currentLevel, 2) * 100;
-    };
+    // Helper function to calculate XP needed for next level
+    // const calculateNextLevelXP = (xp: bigint) => {
+    //     const currentLevel = calculateLevel(xp);
+    //     return Math.pow(currentLevel, 2) * 100;
+    // };
 
     const xpProgress = () => {
         const currentXP = Number(actualStats.walksXp);

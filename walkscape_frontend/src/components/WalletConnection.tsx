@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useWallet } from '@/contexts/WalletContext';
 import { getContract } from '@/lib/web3';
+import { PushUniversalAccountButton } from '@pushchain/ui-kit';
 import {
     Wallet,
     Loader2,
@@ -17,17 +18,9 @@ interface WalletConnectionProps {
 }
 
 export default function WalletConnection({ showRegistration = false }: WalletConnectionProps) {
-    const { provider, isConnected, checkRegistration, address, isRegistered, isLoading, connect } = useWallet();
+    const { provider, isConnected, checkRegistration, address, registrationState, isLoading } = useWallet();
     const [isRegistering, setIsRegistering] = useState(false);
     const [registrationResult, setRegistrationResult] = useState<{ success: boolean; message: string } | null>(null);
-
-    const handleConnect = async () => {
-        try {
-            await connect();
-        } catch (error) {
-            console.error('Failed to open wallet modal:', error);
-        }
-    };
 
     const handleRegisterPlayer = async () => {
         if (!provider || !address) {
@@ -139,23 +132,17 @@ export default function WalletConnection({ showRegistration = false }: WalletCon
                     </p>
                 </div>
 
-                <button
-                    onClick={handleConnect}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium transition-colors flex items-center gap-2"
-                >
-                    <Wallet className="h-5 w-5" />
-                    Connect Wallet
-                </button>
+                <PushUniversalAccountButton />
 
                 <div className="mt-8 text-sm text-gray-500">
-                    <p>Supported wallets: MetaMask, WalletConnect, and more</p>
+                    <p>Powered by Push Chain Universal Wallet</p>
                 </div>
             </div>
         );
     }
 
     // Connected but checking registration
-    if (isLoading) {
+    if (isLoading || registrationState === 'checking') {
         return (
             <div className="flex flex-col items-center justify-center p-8 text-center">
                 <Loader2 className="h-8 w-8 animate-spin text-blue-500 mb-4" />
@@ -166,7 +153,7 @@ export default function WalletConnection({ showRegistration = false }: WalletCon
     }
 
     // Connected and registered
-    if (isRegistered) {
+    if (registrationState === 'registered') {
         return (
             <div className="flex flex-col items-center justify-center p-8 text-center">
                 <div className="mb-6">
